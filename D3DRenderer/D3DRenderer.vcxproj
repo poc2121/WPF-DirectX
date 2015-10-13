@@ -34,38 +34,44 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v110</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|X64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v110</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v110</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|X64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v110</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v110</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|X64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v110</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
@@ -139,12 +145,12 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
-      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExceptionHandling>Async</ExceptionHandling>
       <AdditionalIncludeDirectories>DXUT\Core;DXUT\Optional;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
@@ -178,11 +184,11 @@
       <OpenMPSupport>false</OpenMPSupport>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExceptionHandling>Async</ExceptionHandling>
       <AdditionalIncludeDirectories>DXUT\Core;DXUT\Optional;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
@@ -218,7 +224,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
-      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExceptionHandling>Async</ExceptionHandling>
       <AdditionalIncludeDirectories>DXUT\Core;DXUT\Optional;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -258,7 +264,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExceptionHandling>Async</ExceptionHandling>
       <AdditionalIncludeDirectories>DXUT\Core;DXUT\Optional;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -299,7 +305,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
-      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExceptionHandling>Async</ExceptionHandling>
       <AdditionalIncludeDirectories>DXUT\Core;DXUT\Optional;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>WIN32;NDEBUG;PROFILE;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -339,7 +345,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExceptionHandling>Async</ExceptionHandling>
       <AdditionalIncludeDirectories>DXUT\Core;DXUT\Optional;%(AdditionalIncludeDirectories)
       </AdditionalIncludeDirectories>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
@@ -372,16 +378,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="DXUT\Optional\directx.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="D3DRenderer.cpp" />
+    <ClCompile Include="D3DWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
-    <CLInclude Include="resource.h" />
-    <ResourceCompile Include="D3DRenderer.rc" />
+    <ClInclude Include="D3DRenderer.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
