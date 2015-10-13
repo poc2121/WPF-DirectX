@@ -378,9 +378,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="DXUT\Optional\directx.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="D3DRenderer.cpp" />
     <ClCompile Include="D3DWrapper.cpp" />
   </ItemGroup>
@@ -388,8 +385,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DRenderer.h" />
-    <CLInclude Include="resource.h" />
-    <ResourceCompile Include="D3DRenderer.rc" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
