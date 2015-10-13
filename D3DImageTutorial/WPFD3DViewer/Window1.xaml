@@ -1,0 +1,31 @@
+﻿<Window x:Class="WPFD3DViewer.Window1"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+xmlns:Interop="clr-namespace:System.Windows.Interop;assembly=PresentationCore" 
+  Title="WPF D3D Viewer"  SizeToContent="WidthAndHeight" 
+  Loaded="Window_Loaded">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="White" Offset="0.0" />
+                <GradientStop Color="Indigo" Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Image Width="640" Height="480" >
+            <Image.Source>
+                <Interop:D3DImage x:Name="myD3DImage"   IsFrontBufferAvailableChanged="myD3DImage_IsFrontBufferAvailableChanged"/>
+            </Image.Source>
+        </Image>
+
+        <StackPanel HorizontalAlignment="Left" Width="100" Margin="5">
+            <StackPanel.Background>
+                <SolidColorBrush Color="Black" Opacity="0.3"/>
+            </StackPanel.Background>
+            <CheckBox Name="Rot" Margin="5" Content="Rotation" Foreground="White" Unchecked="RotationChanged" Checked="RotationChanged" IsChecked="True" />
+            <CheckBox Name="Wire" Margin="5" Content="Wireframe" Foreground="White" Unchecked="WireframeChanged" Checked="WireframeChanged" IsChecked="False" />
+        </StackPanel>
+
+    </Grid>
+    
+</Window>
