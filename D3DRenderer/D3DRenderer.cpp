@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------------
 // File: D3DRenderer.cpp
 //
 // Desc: For advanced geometry, most apps will prefer to load pre-authored
@@ -16,15 +16,7 @@
 //
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //-----------------------------------------------------------------------------
-#include <Windows.h>
-#include <mmsystem.h>
-#include <d3dx9.h>
-#pragma warning( disable : 4996 ) // disable deprecated warning 
-#include <strsafe.h>
-#pragma warning( default : 4996 )
-
-
-
+#include "D3DRenderer.h"
 
 //-----------------------------------------------------------------------------
 // Global variables
@@ -37,7 +29,23 @@ D3DMATERIAL9*       g_pMeshMaterials = NULL; // Materials for our mesh
 LPDIRECT3DTEXTURE9* g_pMeshTextures = NULL; // Textures for our mesh
 DWORD               g_dwNumMaterials = 0L;   // Number of mesh materials
 
+LPDIRECT3DSURFACE9 g_pd3dSurface = NULL;
 
+HRESULT CreateSurface( UINT nWidth, UINT nHeight ) 
+{ 
+  HRESULT hr = g_pd3dDevice->CreateRenderTarget( 
+    nWidth, nHeight, 
+    D3DFMT_A8R8G8B8,  
+    D3DMULTISAMPLE_NONE,  
+    0, 
+    TRUE, 
+    &g_pd3dSurface,  
+    NULL); 
+  if (SUCCEEDED(hr)) 
+    hr = g_pd3dDevice-> 
+    SetRenderTarget(0, g_pd3dSurface); 
+  return hr; 
+}
 
 
 //-----------------------------------------------------------------------------
@@ -62,11 +70,16 @@ HRESULT InitD3D( HWND hWnd )
 
     // Create the D3DDevice
     if( FAILED( g_pD3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
-                                      D3DCREATE_SOFTWARE_VERTEXPROCESSING,
+                                      D3DCREATE_SOFTWARE_VERTEXPROCESSING |
+                                      D3DCREATE_MULTITHREADED |             // #7 WPF のレンダリングスレッドから安全に Direct3Dスレッドを呼び出せるように
+                                      D3DCREATE_FPU_PRESERVE,               // #7 WPF では倍精度浮動小数点を使う
                                       &d3dpp, &g_pd3dDevice ) ) )
     {
         return E_FAIL;
     }
+
+    if( FAILED( CreateSurface( SCREEN_WIDTH, SCREEN_HEIGHT ) ) ) 
+      return E_FAIL;
 
     // Turn on the zbuffer
     g_pd3dDevice->SetRenderState( D3DRS_ZENABLE, TRUE );
@@ -194,7 +207,7 @@ VOID Cleanup()
 VOID SetupMatrices()
 {
     // Set up world matrix
-    D3DXMATRIXA16 matWorld;
+    D3DXMATRIX matWorld;   // #7 D3DXMATRIXA16（整列データ型）はマネージコードでサポートされていない
     D3DXMatrixRotationY( &matWorld, timeGetTime() / 1000.0f );
     g_pd3dDevice->SetTransform( D3DTS_WORLD, &matWorld );
 
@@ -205,7 +218,7 @@ VOID SetupMatrices()
     D3DXVECTOR3 vEyePt( 0.0f, 3.0f,-5.0f );
     D3DXVECTOR3 vLookatPt( 0.0f, 0.0f, 0.0f );
     D3DXVECTOR3 vUpVec( 0.0f, 1.0f, 0.0f );
-    D3DXMATRIXA16 matView;
+    D3DXMATRIX matView;   // #7 D3DXMATRIXA16（整列データ型）はマネージコードでサポートされていない
     D3DXMatrixLookAtLH( &matView, &vEyePt, &vLookatPt, &vUpVec );
     g_pd3dDevice->SetTransform( D3DTS_VIEW, &matView );
 
@@ -215,7 +228,7 @@ VOID SetupMatrices()
     // a perpsective transform, we need the field of view (1/4 pi is common),
     // the aspect ratio, and the near and far clipping planes (which define at
     // what distances geometry should be no longer be rendered).
-    D3DXMATRIXA16 matProj;
+    D3DXMATRIX matProj;   // #7 D3DXMATRIXA16（整列データ型）はマネージコードでサポートされていない
     D3DXMatrixPerspectiveFovLH( &matProj, D3DX_PI / 4, 1.0f, 1.0f, 100.0f );
     g_pd3dDevice->SetTransform( D3DTS_PROJECTION, &matProj );
 }
@@ -231,7 +244,8 @@ VOID Render()
 {
     // Clear the backbuffer and the zbuffer
     g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-                         D3DCOLOR_XRGB( 0, 0, 255 ), 1.0f, 0 );
+                         D3DCOLOR_ARGB( 0, 0, 0, 0 ), // #7 背景はWPFで描画する
+                         1.0f, 0 );
 
     // Begin the scene
     if( SUCCEEDED( g_pd3dDevice->BeginScene() ) )
@@ -255,12 +269,14 @@ VOID Render()
         g_pd3dDevice->EndScene();
     }
 
+#if 0 // #7 フロントバッファへのスワップチェーンは不要
     // Present the backbuffer contents to the display
     g_pd3dDevice->Present( NULL, NULL, NULL, NULL );
+#endif
 }
 
 
-
+#if 0 // #7
 
 //-----------------------------------------------------------------------------
 // Name: MsgProc()
@@ -334,5 +350,5 @@ INT WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR, INT )
     return 0;
 }
 
-
+#endif
 
