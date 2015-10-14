@@ -91,7 +91,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\D3DRenderer\D3DRenderer.vcxproj">
+    <ProjectReference Include="..\D3DRenderer\D3DRenderer.vcxproj">
       <Project>{d3d09006-96d0-4629-88b8-122c0256058c}</Project>
       <Name>D3DRenderer</Name>
     </ProjectReference>
