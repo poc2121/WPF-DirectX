@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Interop;
+
+using D3DMesh;
 
 namespace WPFD3DViewer
 {
@@ -20,9 +23,62 @@ namespace WPFD3DViewer
   /// </summary>
   public partial class MainWindow : Window
   {
+    private readonly D3DWrapper myD3DScene = new D3DWrapper();
+
     public MainWindow()
     {
       InitializeComponent();
+    }
+
+    private void StartDXRendering()
+    {
+      if( !myD3DImage.IsFrontBufferAvailable )
+        return;
+      IntPtr scene = 
+    myD3DScene.Initialize(
+          new WindowInteropHelper( this ).Handle );
+      myD3DScene.InitGeometry();
+      myD3DImage.Lock();
+      myD3DImage.SetBackBuffer(
+        D3DResourceType.IDirect3DSurface9, scene );
+      myD3DImage.Unlock();
+      CompositionTarget.Rendering +=
+        new EventHandler( OnRendering );
+    }
+
+    private void StopDXRendering()
+    {
+      CompositionTarget.Rendering -= OnRendering;
+      myD3DScene.Cleanup();
+    }
+
+    void OnRendering( object sender, EventArgs e )
+    {
+      if( !myD3DImage.IsFrontBufferAvailable )
+        return;
+      myD3DImage.Lock();
+      int width = 0, height = 0;
+      myD3DScene.Render( ref width, ref height );
+      myD3DImage.AddDirtyRect( new Int32Rect( 0, 0, width, height ) );
+      myD3DImage.Unlock();
+    }
+
+    private void Window_Loaded( object sender, RoutedEventArgs e )
+    {
+      StartDXRendering();
+    }
+
+    private void myD3DImage_IsFrontBufferAvailableChanged(
+      object sender, DependencyPropertyChangedEventArgs e )
+    {
+      if( myD3DImage.IsFrontBufferAvailable )
+      {
+        StartDXRendering();
+      }
+      else
+      {
+        StopDXRendering();
+      }
     }
   }
 }
