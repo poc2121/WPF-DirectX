@@ -29,7 +29,23 @@ D3DMATERIAL9*       g_pMeshMaterials = NULL; // Materials for our mesh
 LPDIRECT3DTEXTURE9* g_pMeshTextures = NULL; // Textures for our mesh
 DWORD               g_dwNumMaterials = 0L;   // Number of mesh materials
 
+LPDIRECT3DSURFACE9 g_pd3dSurface = NULL;
 
+HRESULT CreateSurface( UINT nWidth, UINT nHeight ) 
+{ 
+  HRESULT hr = g_pd3dDevice->CreateRenderTarget( 
+    nWidth, nHeight, 
+    D3DFMT_A8R8G8B8,  
+    D3DMULTISAMPLE_NONE,  
+    0, 
+    TRUE, 
+    &g_pd3dSurface,  
+    NULL); 
+  if (SUCCEEDED(hr)) 
+    hr = g_pd3dDevice-> 
+    SetRenderTarget(0, g_pd3dSurface); 
+  return hr; 
+}
 
 
 //-----------------------------------------------------------------------------
@@ -59,6 +75,9 @@ HRESULT InitD3D( HWND hWnd )
     {
         return E_FAIL;
     }
+
+    if( FAILED( CreateSurface( SCREEN_WIDTH, SCREEN_HEIGHT ) ) ) 
+      return E_FAIL;
 
     // Turn on the zbuffer
     g_pd3dDevice->SetRenderState( D3DRS_ZENABLE, TRUE );
