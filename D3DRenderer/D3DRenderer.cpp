@@ -16,15 +16,7 @@
 //
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //-----------------------------------------------------------------------------
-#include <Windows.h>
-#include <mmsystem.h>
-#include <d3dx9.h>
-#pragma warning( disable : 4996 ) // disable deprecated warning 
-#include <strsafe.h>
-#pragma warning( default : 4996 )
-
-
-
+#include "D3DRenderer.h"
 
 //-----------------------------------------------------------------------------
 // Global variables
