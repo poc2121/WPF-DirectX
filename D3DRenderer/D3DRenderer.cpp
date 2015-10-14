@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------------
 // File: D3DRenderer.cpp
 //
 // Desc: For advanced geometry, most apps will prefer to load pre-authored
@@ -70,7 +70,9 @@ HRESULT InitD3D( HWND hWnd )
 
     // Create the D3DDevice
     if( FAILED( g_pD3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
-                                      D3DCREATE_SOFTWARE_VERTEXPROCESSING,
+                                      D3DCREATE_SOFTWARE_VERTEXPROCESSING |
+                                      D3DCREATE_MULTITHREADED |             // #7 WPF のレンダリングスレッドから安全に Direct3Dスレッドを呼び出せるように
+                                      D3DCREATE_FPU_PRESERVE,               // #7 WPF では倍精度浮動小数点を使う
                                       &d3dpp, &g_pd3dDevice ) ) )
     {
         return E_FAIL;
@@ -242,7 +244,8 @@ VOID Render()
 {
     // Clear the backbuffer and the zbuffer
     g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-                         D3DCOLOR_XRGB( 0, 0, 255 ), 1.0f, 0 );
+                         D3DCOLOR_ARGB( 0, 0, 0, 0 ), // #7 背景はWPFで描画する
+                         1.0f, 0 );
 
     // Begin the scene
     if( SUCCEEDED( g_pd3dDevice->BeginScene() ) )
@@ -266,8 +269,10 @@ VOID Render()
         g_pd3dDevice->EndScene();
     }
 
+#if 0 // #7 フロントバッファへのスワップチェーンは不要
     // Present the backbuffer contents to the display
     g_pd3dDevice->Present( NULL, NULL, NULL, NULL );
+#endif
 }
 
 
