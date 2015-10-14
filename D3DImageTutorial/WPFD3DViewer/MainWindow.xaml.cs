@@ -12,9 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Interop;
 
-using D3DMesh;
+using System.Windows.Interop; // #10
+using D3DMesh;                // #10
 
 namespace WPFD3DViewer
 {
@@ -34,16 +34,13 @@ namespace WPFD3DViewer
     {
       if( !myD3DImage.IsFrontBufferAvailable )
         return;
-      IntPtr scene = 
-    myD3DScene.Initialize(
-          new WindowInteropHelper( this ).Handle );
+
+      IntPtr scene = myD3DScene.Initialize( new WindowInteropHelper( this ).Handle );
       myD3DScene.InitGeometry();
       myD3DImage.Lock();
-      myD3DImage.SetBackBuffer(
-        D3DResourceType.IDirect3DSurface9, scene );
+      myD3DImage.SetBackBuffer( D3DResourceType.IDirect3DSurface9, scene );
       myD3DImage.Unlock();
-      CompositionTarget.Rendering +=
-        new EventHandler( OnRendering );
+      CompositionTarget.Rendering += new EventHandler( OnRendering );
     }
 
     private void StopDXRendering()
@@ -56,10 +53,11 @@ namespace WPFD3DViewer
     {
       if( !myD3DImage.IsFrontBufferAvailable )
         return;
+
       myD3DImage.Lock();
       int width = 0, height = 0;
       myD3DScene.Render( ref width, ref height );
-      myD3DImage.AddDirtyRect( new Int32Rect( 0, 0, width, height ) );
+      myD3DImage.AddDirtyRect( new Int32Rect( 0, 0, width, height ) );  // #10 書き込む範囲を決める
       myD3DImage.Unlock();
     }
 
