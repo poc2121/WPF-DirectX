@@ -207,7 +207,7 @@ VOID Cleanup()
 VOID SetupMatrices()
 {
     // Set up world matrix
-    D3DXMATRIXA16 matWorld;
+    D3DXMATRIX matWorld;   // #7 D3DXMATRIXA16（整列データ型）はマネージコードでサポートされていない
     D3DXMatrixRotationY( &matWorld, timeGetTime() / 1000.0f );
     g_pd3dDevice->SetTransform( D3DTS_WORLD, &matWorld );
 
@@ -218,7 +218,7 @@ VOID SetupMatrices()
     D3DXVECTOR3 vEyePt( 0.0f, 3.0f,-5.0f );
     D3DXVECTOR3 vLookatPt( 0.0f, 0.0f, 0.0f );
     D3DXVECTOR3 vUpVec( 0.0f, 1.0f, 0.0f );
-    D3DXMATRIXA16 matView;
+    D3DXMATRIX matView;   // #7 D3DXMATRIXA16（整列データ型）はマネージコードでサポートされていない
     D3DXMatrixLookAtLH( &matView, &vEyePt, &vLookatPt, &vUpVec );
     g_pd3dDevice->SetTransform( D3DTS_VIEW, &matView );
 
@@ -228,7 +228,7 @@ VOID SetupMatrices()
     // a perpsective transform, we need the field of view (1/4 pi is common),
     // the aspect ratio, and the near and far clipping planes (which define at
     // what distances geometry should be no longer be rendered).
-    D3DXMATRIXA16 matProj;
+    D3DXMATRIX matProj;   // #7 D3DXMATRIXA16（整列データ型）はマネージコードでサポートされていない
     D3DXMatrixPerspectiveFovLH( &matProj, D3DX_PI / 4, 1.0f, 1.0f, 100.0f );
     g_pd3dDevice->SetTransform( D3DTS_PROJECTION, &matProj );
 }
