@@ -252,7 +252,7 @@ VOID Render()
 }
 
 
-
+#if 0 // #7
 
 //-----------------------------------------------------------------------------
 // Name: MsgProc()
@@ -326,5 +326,5 @@ INT WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR, INT )
     return 0;
 }
 
-
+#endif
 
